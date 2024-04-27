@@ -1,4 +1,10 @@
 ﻿namespace ToDoList.Models
 {
-    public record class Entry (int Id, int ListId, string Text, bool IsDone);
+    public class Entry
+    {
+        int Id { get; set; }
+        int ListId { get; set; }
+        string? Text { get; set; }
+        bool IsDone { get; set; }
+    };
 }

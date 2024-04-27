@@ -1,4 +1,9 @@
 ﻿namespace ToDoList.Models
 {
-    public record class EntriesList(int Id, int UserId, string Name);
+    public class EntriesList
+    {
+        int Id { get; set; }
+        int UserId { get; set; }
+        string? Name { get; set; }
+    }
 }

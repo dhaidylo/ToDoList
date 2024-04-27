@@ -1,4 +1,8 @@
 ﻿namespace ToDoList.Models
 {
-    public record class User(int Id, string Name);
+    public class User
+    {
+        int Id { get; set; }
+        public string? Name { get; set; }
+    }
 }
