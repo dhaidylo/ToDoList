@@ -11,9 +11,16 @@ namespace ToDoList.Controllers
         public HomeController(ApplicationContext context)
         {
             db = context;
+
+            if(!db.EntriesLists.Any())
+            {
+                var list = new EntriesList { Name = "General" };
+                db.EntriesLists.Add(list);
+                db.SaveChanges();
+            }
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
         }

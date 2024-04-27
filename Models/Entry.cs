@@ -2,9 +2,9 @@
 {
     public class Entry
     {
-        int Id { get; set; }
-        int ListId { get; set; }
-        string? Text { get; set; }
-        bool IsDone { get; set; }
+        public int Id { get; set; }
+        public int ListId { get; set; }
+        public string? Text { get; set; }
+        public bool IsDone { get; set; }
     };
 }
