@@ -44,9 +44,20 @@ namespace ToDoList.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> Index()
+        [HttpPost]
+        public async Task<IActionResult> Delete(int? id)
         {
-            return View();
+            if (id != null)
+            {
+                Entry? entry = await db.Entries.FirstOrDefaultAsync(p => p.Id == id);
+                if (entry != null)
+                {
+                    db.Entries.Remove(entry);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+            }
+            return NotFound();
         }
 
         public IActionResult Privacy()
