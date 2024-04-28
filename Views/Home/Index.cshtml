@@ -1,6 +1,29 @@
-﻿@{
-    ViewData["Title"] = "My TODO List";
-}
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model ToDoList.ViewModels.IndexViewModel
+
+<h2>Каталог пользователей</h2>
+  
+<form method="get">
+    <div>
+        <label>Lists: </label>
+        <select name="list" asp-items="Model.EntriesLists"></select>
+    </div>
+</form>
+  
+<table>
+    <tr>
+        <th>Status</th>
+        <th>Text</th>
+    </tr>
+  
+    @foreach (var item in Model.Entries)
+    {
+        <tr>
+            <td>@item.IsDone</td>
+            <td>@item.Text</td>
+        </tr>
+    }
+</table>
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
