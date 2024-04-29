@@ -24,7 +24,7 @@ namespace ToDoList.Controllers
             }
         }
 
-        public ActionResult Index(int? entriesList)
+        public IActionResult Index(int? entriesList)
         {
             IQueryable<Entry> entries = db.Entries.Include(p => p.EntryList);
             if (entriesList != null && entriesList != 0)
@@ -33,7 +33,7 @@ namespace ToDoList.Controllers
             }
 
             List<EntriesList> entriesLists = db.EntriesLists.ToList();
-            
+
             entriesLists.Insert(0, new EntriesList { Name = "All", Id = 0 });
 
             IndexViewModel viewModel = new IndexViewModel
@@ -42,6 +42,24 @@ namespace ToDoList.Controllers
                 EntriesLists = new SelectList(entriesLists, "Id", "Name", entriesList),
             };
             return View(viewModel);
+        }
+
+        public IActionResult Create()
+        {
+            var entriesList = db.EntriesLists.ToList();
+            var entriesSelectList = new SelectList(entriesList, "Id", "Name");
+
+            ViewBag.EntriesLists = entriesSelectList;
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Entry entry)
+        {
+            db.Entries.Add(entry);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
