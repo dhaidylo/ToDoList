@@ -14,6 +14,7 @@
     <tr>
         <th>Status</th>
         <th>Text</th>
+        <th>List</th>
     </tr>
   
     @foreach (var item in Model.Entries)
@@ -22,14 +23,13 @@
             <td><input asp-for="@item.IsDone" /></td>
             <td>@item.Text</td>
             <td>
-                <form asp-controller="Home" asp-action="Delete" method="post" asp-route-id="@item.Id">
-                    <input type="submit" value="-" />
-                </form>
+                <button asp-controller="Home" asp-action="Delete" method="post" asp-route-id="@item.Id">-</button>
             </td>
+            <td>@item.ListId</td>
         </tr>
     }
 
     <tr>
-        <a asp-action="Create">Add Task</a>
+        <a asp-action="Create" asp-controller="Entry">Add Task</a>
     </tr>
 </table>

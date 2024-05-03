@@ -10,29 +10,29 @@ namespace ToDoList.Controllers
 {
     public class HomeController : Controller
     {
-        ApplicationContext db;
+        ApplicationContext _context;
 
         public HomeController(ApplicationContext context)
         {
-            db = context;
+            _context = context;
 
-            if(!db.EntriesLists.Any())
+            if(!_context.EntriesLists.Any())
             {
                 var list = new EntriesList { Name = "General" };
-                db.EntriesLists.Add(list);
-                db.SaveChanges();
+                _context.EntriesLists.Add(list);
+                _context.SaveChanges();
             }
         }
 
         public IActionResult Index(int? entriesList)
         {
-            IQueryable<Entry> entries = db.Entries.Include(p => p.EntryList);
+            IQueryable<Entry> entries = _context.Entries.Include(p => p.EntryList);
             if (entriesList != null && entriesList != 0)
             {
                 entries = entries.Where(p => p.ListId == entriesList);
             }
 
-            List<EntriesList> entriesLists = db.EntriesLists.ToList();
+            List<EntriesList> entriesLists = _context.EntriesLists.ToList();
 
             entriesLists.Insert(0, new EntriesList { Name = "All", Id = 0 });
 
@@ -44,34 +44,16 @@ namespace ToDoList.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Create()
-        {
-            var entriesList = db.EntriesLists.ToList();
-            var entriesSelectList = new SelectList(entriesList, "Id", "Name");
-
-            ViewBag.EntriesLists = entriesSelectList;
-
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create(Entry entry)
-        {
-            db.Entries.Add(entry);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
         [HttpPost]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id != null)
             {
-                Entry? entry = await db.Entries.FirstOrDefaultAsync(p => p.Id == id);
+                Entry? entry = await _context.Entries.FirstOrDefaultAsync(p => p.Id == id);
                 if (entry != null)
                 {
-                    db.Entries.Remove(entry);
-                    await db.SaveChangesAsync();
+                    _context.Entries.Remove(entry);
+                    await _context.SaveChangesAsync();
                     return RedirectToAction("Index");
                 }
             }

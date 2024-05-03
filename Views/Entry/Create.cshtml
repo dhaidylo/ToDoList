@@ -1,7 +1,7 @@
 ﻿@model ToDoList.Models.Entry
 
 <h2>Add Task</h2>
-<form asp-action="create" asp-controller="home">
+<form method="post">
     <p>
         <label asp-for="Text">Text</label><br />
         <input type="Text" asp-for="Text" />
@@ -9,8 +9,10 @@
     <p>
         <label>Lists: </label>
         <select name="listId" asp-items="ViewBag.EntriesLists" asp-for="ListId"></select>
+        <a asp-action="Create" asp-controller="EntriesList">+</a>
+        <button asp-action="Delete" asp-controller="EntriesList">-</button>
     </p>
     <p>
-        <input type="submit" value="+" />
+        <button asp-action="Create" asp-controller="Entry" method="post">Add Entry</button>
     </p>
 </form>

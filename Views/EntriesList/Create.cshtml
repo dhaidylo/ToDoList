@@ -1,0 +1,16 @@
+﻿@model ToDoList.Models.EntriesList
+
+@{
+    ViewData["Title"] = "Add Task";
+}
+
+<h2>Create New List</h2>
+<form asp-action="Create" asp-controller="EntriesList">
+    <p>
+        <label asp-for="Name">Name</label><br />
+        <input type="Text" asp-for="Name" />
+    </p>
+    <p>
+        <input type="submit" value="Add List" />
+    </p>
+</form>
