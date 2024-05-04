@@ -24,13 +24,9 @@ namespace ToDoList.Controllers
             }
         }
 
-        public IActionResult Index(int? entriesList)
+        public IActionResult Index(int? listId)
         {
-            IQueryable<Entry> entries = _context.Entries.Include(p => p.EntryList);
-            if (entriesList != null && entriesList != 0)
-            {
-                entries = entries.Where(p => p.ListId == entriesList);
-            }
+            var entries = GetEntriesInList(listId);
 
             List<EntriesList> entriesLists = _context.EntriesLists.ToList();
 
@@ -39,9 +35,26 @@ namespace ToDoList.Controllers
             IndexViewModel viewModel = new IndexViewModel
             {
                 Entries = entries.ToList(),
-                EntriesLists = new SelectList(entriesLists, "Id", "Name", entriesList),
+                EntriesLists = new SelectList(entriesLists, "Id", "Name", listId),
             };
             return View(viewModel);
+        }
+
+        public IActionResult GetTasks(int? listId)
+        {
+            var entries = GetEntriesInList(listId);
+            return PartialView("_TasksListPartial", entries.ToList());
+        }
+
+        private IQueryable<Entry> GetEntriesInList(int? listId)
+        {
+            IQueryable<Entry> entries = _context.Entries.Include(p => p.EntryList);
+            if (listId != null && listId != 0)
+            {
+                entries = entries.Where(p => p.ListId == listId);
+            }
+
+            return entries;
         }
 
         [HttpPost]

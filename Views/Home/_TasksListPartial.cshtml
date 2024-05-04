@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Entry>
+
+<table>
+    <tr>
+        <th>Status</th>
+        <th>Text</th>
+        <th>List</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td><input asp-for="@item.IsDone" /></td>
+            <td>@item.Text</td>
+            <td>
+                <button asp-controller="Home" asp-action="Delete" method="post" asp-route-id="@item.Id">-</button>
+            </td>
+            <td>@item.ListId</td>
+        </tr>
+    }
+</table>

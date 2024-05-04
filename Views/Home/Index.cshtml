@@ -6,30 +6,31 @@
 <form method="get">
     <div>
         <label>Lists: </label>
-        <select name="list" asp-items="Model.EntriesLists"></select>
+        <select name="list" asp-items="Model.EntriesLists" id="selectList"></select>
     </div>
 </form>
   
-<table>
-    <tr>
-        <th>Status</th>
-        <th>Text</th>
-        <th>List</th>
-    </tr>
-  
-    @foreach (var item in Model.Entries)
-    {
-        <tr>
-            <td><input asp-for="@item.IsDone" /></td>
-            <td>@item.Text</td>
-            <td>
-                <button asp-controller="Home" asp-action="Delete" method="post" asp-route-id="@item.Id">-</button>
-            </td>
-            <td>@item.ListId</td>
-        </tr>
-    }
+<div id="entriesList"></div>
 
-    <tr>
-        <a asp-action="Create" asp-controller="Entry">Add Task</a>
-    </tr>
-</table>
+<script>
+    $(document).ready(function () {
+        $('#selectList').change(function () {
+            var selectedValue = $(this).val();
+            // Отправляем AJAX-запрос на сервер
+            $.ajax({
+                url: '/Home/GetTasks',
+                type: 'GET',
+                data: { listId: selectedValue },
+                success: function (data) {
+                    // Обновляем список элементов на странице
+                    $('#entriesList').html(data);
+                },
+                error: function () {
+                    console.error('Ошибка выполнения запроса.');
+                }
+            });
+        });
+    });
+</script>
+
+<a asp-action="Create" asp-controller="Entry">Add Task</a>
