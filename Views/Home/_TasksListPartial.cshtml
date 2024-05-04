@@ -13,7 +13,7 @@
             <td><input asp-for="@item.IsDone" id="@item.Id" /></td>
             <td>@item.Text</td>
             <td>
-                <button asp-controller="Home" asp-action="Delete" method="post" asp-route-id="@item.Id">-</button>
+                <button class="delete" asp-controller="Home" asp-action="Delete" method="post" id="@item.Id">-</button>
             </td>
             <td>@item.ListId</td>
         </tr>
@@ -22,7 +22,6 @@
 
 <script>
     $(document).ready(function () {
-
         $(':checkbox').change(function () {
             var id = $(this).attr("id");
             $.ajax({
@@ -34,5 +33,20 @@
                 }
             });
         });
+
+        $('.delete').click(function () { 
+            var id = $(this).attr("id");
+            $.ajax({
+                url: '/Home/Delete',
+                type: 'POST',
+                data: {id: id },
+                success: function (data) {
+                    $('#entriesList').html(data);
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            })
+        })
     });
 </script>

@@ -83,7 +83,7 @@ namespace ToDoList.Controllers
                 {
                     _context.Entries.Remove(entry);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("Index");
+                    return GetTasks(entry.ListId);
                 }
             }
             return NotFound();
