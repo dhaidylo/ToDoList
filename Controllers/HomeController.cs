@@ -58,6 +58,22 @@ namespace ToDoList.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> UpdateTaskStatus(int? id)
+        {
+            if (id != null)
+            {
+                Entry? entry = await _context.Entries.FirstOrDefaultAsync(p => p.Id == id);
+                if (entry != null)
+                {
+                    entry.IsDone = !entry.IsDone;
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id != null)
