@@ -29,8 +29,8 @@
                 url: '/Home/UpdateTaskStatus',
                 type: 'POST',
                 data: { id: id },
-                error: function () {
-                    console.error('Ошибка выполнения запроса.');
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
                 }
             });
         });

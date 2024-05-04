@@ -24,20 +24,12 @@ namespace ToDoList.Controllers
             }
         }
 
-        public IActionResult Index(int? listId)
+        public IActionResult Index()
         {
-            var entries = GetEntriesInList(listId);
+            var entriesList = _context.EntriesLists.ToList();
+            ViewBag.EntriesLists = new SelectList(entriesList, "Id", "Name");
 
-            List<EntriesList> entriesLists = _context.EntriesLists.ToList();
-
-            entriesLists.Insert(0, new EntriesList { Name = "All", Id = 0 });
-
-            IndexViewModel viewModel = new IndexViewModel
-            {
-                Entries = entries.ToList(),
-                EntriesLists = new SelectList(entriesLists, "Id", "Name", listId),
-            };
-            return View(viewModel);
+            return View();
         }
 
         public IActionResult GetTasks(int? listId)
@@ -71,6 +63,14 @@ namespace ToDoList.Controllers
                 }
             }
             return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateTask([Bind("Text", "ListId")] Entry entry)
+        {
+            _context.Entries.Add(entry);
+            await _context.SaveChangesAsync();
+            return GetTasks(entry.ListId);
         }
 
         [HttpPost]
