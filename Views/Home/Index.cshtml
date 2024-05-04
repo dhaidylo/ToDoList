@@ -13,22 +13,25 @@
 <div id="entriesList"></div>
 
 <script>
+    function loadEntries(listId) {
+        $.ajax({
+            url: '/Home/GetTasks',
+            type: 'GET',
+            data: { listId: listId },
+            success: function (data) {
+                $('#entriesList').html(data);
+            },
+            error: function () {
+                console.error('Ошибка выполнения запроса.');
+            }
+        });
+    }
     $(document).ready(function () {
+        loadEntries($('#selectList').val());
+
         $('#selectList').change(function () {
             var selectedValue = $(this).val();
-            // Отправляем AJAX-запрос на сервер
-            $.ajax({
-                url: '/Home/GetTasks',
-                type: 'GET',
-                data: { listId: selectedValue },
-                success: function (data) {
-                    // Обновляем список элементов на странице
-                    $('#entriesList').html(data);
-                },
-                error: function () {
-                    console.error('Ошибка выполнения запроса.');
-                }
-            });
+            loadEntries(selectedValue);
         });
     });
 </script>
