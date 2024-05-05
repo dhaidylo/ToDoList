@@ -26,8 +26,8 @@ namespace ToDoList.Controllers
 
         public IActionResult Index()
         {
-            var entriesList = _context.EntriesLists.ToList();
-            ViewBag.EntriesLists = new SelectList(entriesList, "Id", "Name");
+            var entriesLists = _context.EntriesLists.ToList();
+            ViewBag.EntriesLists = new SelectList(entriesLists, "Id", "Name");
 
             return View();
         }
@@ -87,6 +87,16 @@ namespace ToDoList.Controllers
                 }
             }
             return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateList([Bind("Name")] EntriesList entriesList)
+        {
+            _context.EntriesLists.Add(entriesList);
+            await _context.SaveChangesAsync();
+            ViewBag.EntriesLists = new SelectList(_context.EntriesLists, "Id", "Name");
+            //var list = _context.EntriesLists.FirstOrDefault(p => p.Name == entriesList.Name);
+            return Json(entriesList);
         }
 
         public IActionResult Privacy()
