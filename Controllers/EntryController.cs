@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using ToDoList.Models;
 
 namespace ToDoList.Controllers
@@ -18,14 +18,21 @@ namespace ToDoList.Controllers
             return View();
         }
 
-        public IActionResult Create()
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatus(int? id)
         {
-            var entriesList = _context.EntriesLists.ToList();
-            var entriesSelectList = new SelectList(entriesList, "Id", "Name");
+            if (id != null)
+            {
+                Entry? entry = await _context.Entries.FirstOrDefaultAsync(p => p.Id == id);
+                if (entry != null)
+                {
+                    entry.IsDone = !entry.IsDone;
+                    await _context.SaveChangesAsync();
+                    return NoContent();
+                }
+            }
 
-            ViewBag.EntriesLists = entriesSelectList;
-
-            return View();
+            return NotFound();
         }
 
         [HttpPost]
@@ -33,7 +40,23 @@ namespace ToDoList.Controllers
         {
             _context.Entries.Add(entry);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "Home");
+            return NoContent();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id != null)
+            {
+                Entry? entry = await _context.Entries.FirstOrDefaultAsync(p => p.Id == id);
+                if (entry != null)
+                {
+                    _context.Entries.Remove(entry);
+                    await _context.SaveChangesAsync();
+                    return NoContent();
+                }
+            }
+            return NotFound();
         }
     }
 }

@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using ToDoList.Models;
-using ToDoList.ViewModels;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace ToDoList.Controllers
 {
@@ -47,72 +45,6 @@ namespace ToDoList.Controllers
             }
 
             return entries;
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> UpdateTaskStatus(int? id)
-        {
-            if (id != null)
-            {
-                Entry? entry = await _context.Entries.FirstOrDefaultAsync(p => p.Id == id);
-                if (entry != null)
-                {
-                    entry.IsDone = !entry.IsDone;
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction("Index");
-                }
-            }
-            return NotFound();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateTask([Bind("Text", "ListId")] Entry entry)
-        {
-            _context.Entries.Add(entry);
-            await _context.SaveChangesAsync();
-            return GetTasks(entry.ListId);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id != null)
-            {
-                Entry? entry = await _context.Entries.FirstOrDefaultAsync(p => p.Id == id);
-                if (entry != null)
-                {
-                    _context.Entries.Remove(entry);
-                    await _context.SaveChangesAsync();
-                    return GetTasks(entry.ListId);
-                }
-            }
-            return NotFound();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateList([Bind("Name")] EntriesList entriesList)
-        {
-            _context.EntriesLists.Add(entriesList);
-            await _context.SaveChangesAsync();
-            ViewBag.EntriesLists = new SelectList(_context.EntriesLists, "Id", "Name");
-            //var list = _context.EntriesLists.FirstOrDefault(p => p.Name == entriesList.Name);
-            return Json(entriesList);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> DeleteList(int? id)
-        {
-            if (id != null)
-            {
-                EntriesList? list = await _context.EntriesLists.FirstOrDefaultAsync(p => p.Id == id);
-                if (list != null)
-                {
-                    _context.EntriesLists.Remove(list);
-                    await _context.SaveChangesAsync();
-                    return NoContent();
-                }
-            }
-            return NotFound();
         }
 
         public IActionResult Privacy()

@@ -8,10 +8,11 @@
   
 <div>
     <label>Lists: </label>
-    <select asp-items="@ViewBag.EntriesLists" asp-for="ListId" id="select-list"></select>
+    <select asp-items="@ViewBag.EntriesLists" id="select-list"></select>
     <button id="btn-new-list">New List</button>
     <button id="btn-delete-list">Delete</button>
 </div>
+
 <div id="new-list" style="display: none">
     <label>Name:</label>
     <input id="list-name" type="Text" />
@@ -20,97 +21,10 @@
 
 <div id="entries-list"></div>
 
-<label asp-for="Text">Text</label><br />
-<input id="task-name" type="Text" asp-for="Text" />
-<button id ="create-task">Add Task</button>
+<div>
+    <label>Text</label><br />
+    <input id="task-name" type="Text" />
+    <button id="create-task">Add Task</button>
+</div>
 
-
-<script>
-    function loadEntries(listId) {
-        $.ajax({
-            url: '/Home/GetTasks',
-            type: 'GET',
-            data: { listId: listId },
-            success: function (data) {
-                $('#entries-list').html(data);
-            },
-            error: function (xhr, status, error) {
-                console.error(xhr.responseText);
-            }
-        });
-    }
-
-    $(document).ready(function () {
-        loadEntries($('#select-list').val());
-
-        $('#select-list').change(function () {
-            var selectedValue = $(this).val();
-            loadEntries(selectedValue);
-        });
-
-        $('#create-task').click(function () {
-            var textInput = $('#task-name');
-            var taskName = textInput.val();
-            textInput.val('');
-            var listId = $('#select-list').val();
-
-            $.ajax({
-                url: '/Home/CreateTask',
-                type: 'POST',
-                data: { Text: taskName, ListId: listId },
-                success: function (data) {
-                    $('#entries-list').html(data);
-                },
-                error: function (xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-        });
-
-        $('#btn-create-list').click(function () {
-            var textInput = $('#list-name');
-            var listName = textInput.val();
-            textInput.val('');
-
-            $.ajax({
-                url: '/Home/CreateList',
-                type: 'POST',
-                data: { Name: listName },
-                success: function (data) {
-                    var newList = $('<option>', {
-                        value: data.id,
-                        text: data.name
-                    });
-
-                    $('#select-list').append(newList);
-                },
-                error: function (xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            })
-        })
-
-        $('#btn-new-list').click(function () {
-            $('#new-list').toggle();
-        })
-
-        $('#btn-delete-list').click(function () {
-            var select = $('#select-list');
-            var listId = select.val();
-
-            $.ajax({
-                url: '/Home/DeleteList',
-                type: 'POST',
-                data: { id: listId },
-                success: function () {
-                    var selectedOption = select.find('option:selected');
-                    selectedOption.remove();
-                    loadEntries($('#select-list').val());
-                },
-                error: function (xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            })
-        })
-    });
-</script>
+<script src="~/js/home.js"></script>
