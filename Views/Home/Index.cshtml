@@ -10,6 +10,7 @@
     <label>Lists: </label>
     <select asp-items="@ViewBag.EntriesLists" asp-for="ListId" id="select-list"></select>
     <button id="btn-new-list">New List</button>
+    <button id="btn-delete-list">Delete</button>
 </div>
 <div id="new-list" style="display: none">
     <label>Name:</label>
@@ -91,6 +92,25 @@
 
         $('#btn-new-list').click(function () {
             $('#new-list').toggle();
+        })
+
+        $('#btn-delete-list').click(function () {
+            var select = $('#select-list');
+            var listId = select.val();
+
+            $.ajax({
+                url: '/Home/DeleteList',
+                type: 'POST',
+                data: { id: listId },
+                success: function () {
+                    var selectedOption = select.find('option:selected');
+                    selectedOption.remove();
+                    loadEntries($('#select-list').val());
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            })
         })
     });
 </script>

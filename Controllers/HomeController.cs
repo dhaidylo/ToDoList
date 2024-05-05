@@ -99,6 +99,22 @@ namespace ToDoList.Controllers
             return Json(entriesList);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DeleteList(int? id)
+        {
+            if (id != null)
+            {
+                EntriesList? list = await _context.EntriesLists.FirstOrDefaultAsync(p => p.Id == id);
+                if (list != null)
+                {
+                    _context.EntriesLists.Remove(list);
+                    await _context.SaveChangesAsync();
+                    return NoContent();
+                }
+            }
+            return NotFound();
+        }
+
         public IActionResult Privacy()
         {
             return View();
