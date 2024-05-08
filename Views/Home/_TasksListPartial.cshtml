@@ -1,20 +1,12 @@
 ﻿@model IEnumerable<Entry>
 
-<table>
-    <tr>
-        <th>Status</th>
-        <th>Text</th>
-        <th>List</th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td><input asp-for="@item.IsDone" id="@item.Id" /></td>
-            <td>@item.Text</td>
-            <td><button class="btn-delete" id="@item.Id">-</button></td>
-        </tr>
-    }
-</table>
+@foreach (var item in Model)
+{
+    <div class="flex-container">
+        <div class="task-status"><input asp-for="@item.IsDone" id="@item.Id" /></div>
+        <div class="stretch">@item.Text</div>
+        <div class="task-delete"><button class="btn-delete" id="@item.Id">-</button></div>
+    </div>
+}
 
 <script src="~/js/partial.js"></script>

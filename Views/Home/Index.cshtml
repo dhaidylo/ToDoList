@@ -5,25 +5,20 @@
 }
 
 <h2>My TODO List</h2>
-  
-<div>
+
+<div class="flex-container">
     <label>Lists: </label>
-    <select asp-items="@ViewBag.EntriesLists" id="select-list"></select>
+    <select asp-items="@ViewBag.EntriesLists" class="stretch" id="select-list"></select>
     <button id="btn-new-list">New List</button>
     <button id="btn-delete-list">Delete</button>
 </div>
-
-<div id="new-list" style="display: none">
-    <label>Name:</label>
-    <input id="list-name" type="Text" />
+<div id="new-list" class="flex-container" style="display: none">
+    <input id="list-name" class="stretch" placeholder="List Name" />
     <button id="btn-create-list">Add List</button>
 </div>
-
 <div id="entries-list"></div>
-
-<div>
-    <label>Text</label><br />
-    <input id="task-name" type="Text" />
+<div class="flex-container">
+    <input id="task-name" class="stretch" placeholder="New Task" />
     <button id="create-task">Add Task</button>
 </div>
 
