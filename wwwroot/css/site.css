@@ -18,15 +18,20 @@ html {
 }
 
 body {
-    margin-bottom: 60px;
     background-color: cornflowerblue;
 }
 
 main {
-    padding: 5em;
+    padding: initial;
 }
 
-h2 {
+@media (min-width:768px) {
+    main {
+        padding: 5em;
+    }
+}
+
+h1 {
     display: flex;
     justify-content: center;
     color: white;
@@ -41,14 +46,22 @@ h2 {
     border-radius: 0.5em;
 }
 
+.task:hover {
+    background-color: #e9ecef;
+}
+    
 .line {
     display: flex;
-    gap: 0.5em;
+}
+
+select {
+    max-width: 100%;
 }
 
 .stretch {
     display: flex;
     flex: 1;
+    min-width: 0;
 }
 
 #entries-list {
@@ -59,31 +72,39 @@ h2 {
     background-color: white;
 }
 
+.window {
+    border-radius: 0.5em;
+    background-color: lightgray;
+}
+
 .window-header, .window-footer {
     display: flex;
     flex-direction:column;
     gap: 0.5em;
-    background-color: lightgray;
     padding: 1em;
 }
 
-.btn-delete {
-    background-color: darkred;
-    color: white;
+.btn-delete, .btn-delete-task {
+    background-color: transparent;
+    border: none;
+    color: darkred;
 }
 
 .btn-delete-task {
     visibility: hidden;
-    background-color: transparent;
-    border: none;
-    color: darkred;
 }
 
 .task:hover > .btn-delete-task {
     visibility: visible;
 }
 
+:checked ~ div {
+    text-decoration: line-through;
+    color: gray;
+}
+
 .btn-create {
-    background-color: darkblue;
-    color: white;
+    background-color: transparent;
+    border: none;
+    color: darkblue;
 }

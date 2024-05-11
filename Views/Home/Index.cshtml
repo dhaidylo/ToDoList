@@ -4,23 +4,25 @@
     ViewData["Title"] = "My TODO List";
 }
 
-<h2>My TODO List</h2>
-<div class="window-header">
-    <div class="line">
-        <select asp-items="@ViewBag.EntriesLists" class="stretch" id="select-list"></select>
-        <button id="btn-new-list" class="btn-create">New List</button>
-        <button id="btn-delete-list" class="btn-delete">Delete</button>
+<h1>My TODO List</h1>
+<div class="window">
+    <div class="window-header">
+        <div class="line">
+            <select asp-items="@ViewBag.EntriesLists" class="stretch" id="select-list"></select>
+            <button id="btn-new-list" class="btn-create"><i class="fa-solid fa-square-plus fa-2xl"></i></button>
+            <button id="btn-delete-list" class="btn-delete"><i class="fa-solid fa-square-minus fa-2xl"></i></button>
+        </div>
+        <div id="new-list" class="line" style="display: none">
+            <input id="list-name" class="stretch" maxlength="50" placeholder="List Name" />
+            <button id="btn-create-list" class="btn-create"><i class="fa-solid fa-square-plus fa-2xl"></i></button>
+        </div>
     </div>
-    <div id="new-list" class="line" style="display: none">
-        <input id="list-name" class="stretch" maxlength="30" placeholder="List Name" />
-        <button id="btn-create-list" class="btn-create">Add List</button>
-    </div>
-</div>
-<div id="entries-list"></div>
-<div class="window-footer">
-    <div class="line">
-        <input id="task-name" class="stretch" placeholder="New Task" />
-        <button id="create-task" class="btn-create">Add Task</button>
+    <div id="entries-list"></div>
+    <div class="window-footer">
+        <div class="line">
+            <input id="task-name" class="stretch" placeholder="New Task" />
+            <button id="create-task" class="btn-create"><i class="fa-solid fa-square-plus fa-2xl"></i></button>
+        </div>
     </div>
 </div>
 <script src="~/js/home.js"></script>
