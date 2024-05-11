@@ -13,7 +13,7 @@
 }
 
 function deleteTask() {
-    $(".btn-delete").on("click", function () {
+    $(".btn-delete-task").on("click", function () {
         var id = $(this).attr("id");
         $.ajax({
             url: '/Entry/Delete',

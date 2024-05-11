@@ -5,21 +5,22 @@
 }
 
 <h2>My TODO List</h2>
-
-<div class="flex-container">
-    <label>Lists: </label>
-    <select asp-items="@ViewBag.EntriesLists" class="stretch" id="select-list"></select>
-    <button id="btn-new-list">New List</button>
-    <button id="btn-delete-list">Delete</button>
-</div>
-<div id="new-list" class="flex-container" style="display: none">
-    <input id="list-name" class="stretch" placeholder="List Name" />
-    <button id="btn-create-list">Add List</button>
+<div class="window-header">
+    <div class="line">
+        <select asp-items="@ViewBag.EntriesLists" class="stretch" id="select-list"></select>
+        <button id="btn-new-list" class="btn-create">New List</button>
+        <button id="btn-delete-list" class="btn-delete">Delete</button>
+    </div>
+    <div id="new-list" class="line" style="display: none">
+        <input id="list-name" class="stretch" maxlength="30" placeholder="List Name" />
+        <button id="btn-create-list" class="btn-create">Add List</button>
+    </div>
 </div>
 <div id="entries-list"></div>
-<div class="flex-container">
-    <input id="task-name" class="stretch" placeholder="New Task" />
-    <button id="create-task">Add Task</button>
+<div class="window-footer">
+    <div class="line">
+        <input id="task-name" class="stretch" placeholder="New Task" />
+        <button id="create-task" class="btn-create">Add Task</button>
+    </div>
 </div>
-
 <script src="~/js/home.js"></script>

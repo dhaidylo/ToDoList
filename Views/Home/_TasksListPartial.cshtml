@@ -2,10 +2,10 @@
 
 @foreach (var item in Model)
 {
-    <div class="flex-container">
-        <div class="task-status"><input asp-for="@item.IsDone" id="@item.Id" /></div>
+    <div class="task">
+        <input asp-for="@item.IsDone" id="@item.Id" />
         <div class="stretch">@item.Text</div>
-        <div class="task-delete"><button class="btn-delete" id="@item.Id">-</button></div>
+        <button class="btn-delete-task" id="@item.Id"><i class="fa-solid fa-trash"></i></button>
     </div>
 }
 
