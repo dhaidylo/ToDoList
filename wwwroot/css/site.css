@@ -62,6 +62,7 @@ select {
     display: flex;
     flex: 1;
     min-width: 0;
+    overflow: hidden;
 }
 
 #entries-list {
@@ -107,4 +108,10 @@ select {
     background-color: transparent;
     border: none;
     color: darkblue;
+}
+
+.btn-new {
+    background-color: transparent;
+    border: none;
+    color: darkgreen;
 }

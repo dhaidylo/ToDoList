@@ -9,11 +9,11 @@
     <div class="window-header">
         <div class="line">
             <select asp-items="@ViewBag.EntriesLists" class="stretch" id="select-list"></select>
-            <button id="btn-new-list" class="btn-create"><i class="fa-solid fa-square-plus fa-2xl"></i></button>
-            <button id="btn-delete-list" class="btn-delete"><i class="fa-solid fa-square-minus fa-2xl"></i></button>
+            <button id="btn-new-list" class="btn-new"><i class="fa-solid fa-square-plus fa-2xl"></i></button>
+            <button id="btn-delete-list" class="btn-delete"><i class="fa-solid fa-trash fa-xl"></i></button>
         </div>
         <div id="new-list" class="line" style="display: none">
-            <input id="list-name" class="stretch" maxlength="50" placeholder="List Name" />
+            <input id="list-name" class="stretch" placeholder="List Name" />
             <button id="btn-create-list" class="btn-create"><i class="fa-solid fa-square-plus fa-2xl"></i></button>
         </div>
     </div>

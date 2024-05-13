@@ -1,83 +1,93 @@
-﻿function loadEntries() {
-    var listId = $('#select-list').val();
+﻿async function loadEntries() {
+    const listId = $('#select-list').val();
 
-    $.ajax({
-        url: '/Home/GetTasks',
-        type: 'GET',
-        data: { listId: listId },
-        success: function (data) {
-            $('#entries-list').html(data);
+    const response = await fetch('/Home/GetTasks', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
         },
-        error: function (xhr, status, error) {
-            console.error(xhr.responseText);
-        }
+        body: JSON.stringify(listId)
     });
+    if (response.ok) {
+        const data = await response.text();
+        $('#entries-list').html(data);
+    }
+    else {
+        throw new Error('Network response was not ok');
+    }
 }
 
 function createTask() {
-    $('#create-task').on("click", function () {
-        var textInput = $('#task-name');
-        var taskName = textInput.val();
+    $('#create-task').on("click", async () => {
+        const textInput = $('#task-name');
+        const taskName = textInput.val();
         textInput.val('');
-        var listId = $('#select-list').val();
+        const listId = $('#select-list').val();
 
-        $.ajax({
-            url: '/Entry/Create',
-            type: 'POST',
-            data: { Text: taskName, ListId: listId },
-            success: function () {
-                loadEntries();
+        const response = await fetch('/Entry/Create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
             },
-            error: function (xhr, status, error) {
-                console.error(xhr.responseText);
-            }
+            body: JSON.stringify({ Text: taskName, ListId: listId })
         });
-    });
+        if (response.ok) {
+            loadEntries();
+        }
+        else {
+            throw new Error('Network response was not ok');
+        }
+    }); 
 }
 
 function createList() {
-    $('#btn-create-list').on("click", function () {
-        var textInput = $('#list-name');
-        var listName = textInput.val();
+    $('#btn-create-list').on("click", async () => {
+        const textInput = $('#list-name');
+        const listName = textInput.val();
         textInput.val('');
 
-        $.ajax({
-            url: '/List/Create',
-            type: 'POST',
-            data: { Name: listName },
-            success: function (data) {
-                var newList = $('<option>', {
-                    value: data.id,
-                    text: data.name
-                });
-
-                $('#select-list').append(newList);
+        const response = await fetch('/List/Create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
             },
-            error: function (xhr, status, error) {
-                console.error(xhr.responseText);
-            }
-        })
+            body: JSON.stringify({ Name: listName })
+        });
+        if (response.ok) {
+            const data = await response.json();
+            const newList = $('<option>', {
+                value: data.id,
+                text: data.name
+            });
+
+            $('#select-list').append(newList);
+        }
+        else {
+            throw new Error('Network response was not ok');
+        }
     })
 }
 
 function deleteList() {
-    $('#btn-delete-list').on("click", function () {
-        var select = $('#select-list');
-        var listId = select.val();
+    $('#btn-delete-list').on("click", async () => {
+        const select = $('#select-list');
+        const listId = select.val();
 
-        $.ajax({
-            url: '/List/Delete',
-            type: 'POST',
-            data: { id: listId },
-            success: function () {
-                var selectedOption = select.find('option:selected');
-                selectedOption.remove();
-                loadEntries();
+        const response = await fetch('/List/Delete', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
             },
-            error: function (xhr, status, error) {
-                console.error(xhr.responseText);
-            }
-        })
+            body: JSON.stringify(listId)
+        });
+        if (response.ok) {
+            const selectedOption = select.find('option:selected');
+            selectedOption.remove();
+            loadEntries();
+        }
+        else {
+            throw new Error('Network response was not ok');
+        }
     })
 }
 

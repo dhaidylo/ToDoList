@@ -19,7 +19,7 @@ namespace ToDoList.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateStatus(int? id)
+        public async Task<IActionResult> UpdateStatus([FromBody] int? id)
         {
             if (id != null)
             {
@@ -28,7 +28,7 @@ namespace ToDoList.Controllers
                 {
                     entry.IsDone = !entry.IsDone;
                     await _context.SaveChangesAsync();
-                    return NoContent();
+                    return Ok();
                 }
             }
 
@@ -36,15 +36,15 @@ namespace ToDoList.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Text", "ListId")] Entry entry)
+        public async Task<IActionResult> Create([FromBody] Entry entry)
         {
             _context.Entries.Add(entry);
             await _context.SaveChangesAsync();
-            return NoContent();
+            return Ok();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete([FromBody] int? id)
         {
             if (id != null)
             {
@@ -53,7 +53,7 @@ namespace ToDoList.Controllers
                 {
                     _context.Entries.Remove(entry);
                     await _context.SaveChangesAsync();
-                    return NoContent();
+                    return Ok();
                 }
             }
             return NotFound();

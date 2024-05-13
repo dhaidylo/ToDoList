@@ -30,7 +30,7 @@ namespace ToDoList.Controllers
             return View();
         }
 
-        public IActionResult GetTasks(int? listId)
+        public IActionResult GetTasks([FromBody] int? listId)
         {
             var entries = GetEntriesInList(listId);
             return PartialView("_TasksListPartial", entries.ToList());
@@ -45,11 +45,6 @@ namespace ToDoList.Controllers
             }
 
             return entries;
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

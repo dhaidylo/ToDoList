@@ -20,7 +20,7 @@ namespace ToDoList.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Name")] EntriesList entriesList)
+        public async Task<IActionResult> Create([FromBody] EntriesList entriesList)
         {
             _context.EntriesLists.Add(entriesList);
             await _context.SaveChangesAsync();
@@ -29,7 +29,7 @@ namespace ToDoList.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete([FromBody] int? id)
         {
             if (id != null)
             {
