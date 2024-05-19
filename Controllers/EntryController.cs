@@ -13,17 +13,12 @@ namespace ToDoList.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> UpdateStatus([FromBody] int? id)
         {
             if (id != null)
             {
-                Entry? entry = await _context.Entries.FirstOrDefaultAsync(p => p.Id == id);
+                Entry? entry = await _context.Entries.FindAsync(id);
                 if (entry != null)
                 {
                     entry.IsDone = !entry.IsDone;
@@ -43,12 +38,12 @@ namespace ToDoList.Controllers
             return Ok();
         }
 
-        [HttpPost]
+        [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] int? id)
         {
             if (id != null)
             {
-                Entry? entry = await _context.Entries.FirstOrDefaultAsync(p => p.Id == id);
+                Entry? entry = await _context.Entries.FindAsync(id);
                 if (entry != null)
                 {
                     _context.Entries.Remove(entry);

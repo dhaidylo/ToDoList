@@ -14,11 +14,6 @@ namespace ToDoList.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] EntriesList entriesList)
         {
@@ -28,19 +23,19 @@ namespace ToDoList.Controllers
             return Json(entriesList);
         }
 
-        [HttpPost]
+        [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] int? id)
         {
             if (id != null)
             {
-                EntriesList? list = await _context.EntriesLists.FirstOrDefaultAsync(p => p.Id == id);
+                EntriesList? list = await _context.EntriesLists.FindAsync(id);
                 if (list != null)
                 {
                     var entries = _context.Entries.Where(p => p.ListId == id);
                     _context.RemoveRange(entries);
                     _context.EntriesLists.Remove(list);
                     await _context.SaveChangesAsync();
-                    return NoContent();
+                    return Ok();
                 }
             }
 

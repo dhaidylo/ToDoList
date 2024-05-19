@@ -7,7 +7,7 @@
             checkbox.prop('disabled', true);
 
             const response = await fetch('/Entry/UpdateStatus', {
-                method: 'POST',
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -36,7 +36,7 @@ function deleteTask() {
             button.prop('disabled', true);
 
             const response = await fetch('/Entry/Delete', {
-                method: 'POST',
+                method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
                 },

@@ -139,7 +139,7 @@ function deleteList() {
             button.prop('disabled', true);
 
             const response = await fetch('/List/Delete', {
-                method: 'POST',
+                method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
                 },
