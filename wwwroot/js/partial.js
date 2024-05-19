@@ -1,34 +1,59 @@
 ﻿function updateTaskStatus() {
     $(":checkbox").on("change", async function () {
-        const id = await $(this).attr("id");
-        const response = await fetch('/Entry/UpdateStatus', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(id)
-        })
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
+        const checkbox = $(this);
+        const taskId = $(this).attr("id");
+
+        try {
+            checkbox.prop('disabled', true);
+
+            const response = await fetch('/Entry/UpdateStatus', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(taskId)
+            })
+
+            if (!response.ok) {
+                throw new Error(`Network response was not ok: ${response.statusText}`);
+            }
+        }
+        catch {
+            handleError(error);
+        }
+        finally {
+            checkbox.prop('disabled', false);
         }
     });
 }
 
 function deleteTask() {
     $(".btn-delete-task").on("click", async function () {
-        const id = $(this).attr("id");
-        const response = await fetch('/Entry/Delete', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(id)
-        })
-        if (response.ok) {
-            loadEntries();
+        const button = $(this);
+        const taskId = $(this).attr("id");
+
+        try {
+            button.prop('disabled', true);
+
+            const response = await fetch('/Entry/Delete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(taskId)
+            })
+
+            if (!response.ok) {
+                throw new Error(`Network response was not ok: ${response.statusText}`);
+            }
+
+            await loadEntries();
         }
-        else {
-            throw new Error('Network response was not ok');
+        catch {
+            handleError(error);
+        }
+        finally {
+            button.prop('disabled', false);
         }
     })
 }
